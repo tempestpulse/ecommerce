@@ -1,0 +1,31 @@
+{% extends 'item/base.html' %}
+
+{% block content %}
+
+<section class="container mt-4">
+        <h2>{{ item.name }}
+        </h2>
+
+        <!-- Video Player -->
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <img src="{{ item.photo.url }}" width="300" height="300" alt="">
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-md-8">
+                <h3>Uploaded by: <a href="#"></a>
+                </h3>
+            </div>
+
+        </div>
+        <!-- Video Description -->
+        <div class="row mt-4">
+            <div class="col-md-8">
+                <h3>Description</h3>
+                <p>{{ item.description }}</p>
+            </div>
+        </div>
+
+{% endblock %}

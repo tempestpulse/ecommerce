@@ -10,9 +10,21 @@ class Category(models.Model):
 
 
 class Item(models.Model):
+    DEFAULT_PHOTO = 'photos/default_photo.jpg'
+
     name = models.CharField(max_length=40)
     price = models.DecimalField(max_digits=10, decimal_places=2)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    description = models.TextField(max_length=1000, blank=True, null=True)
+    photo = models.ImageField(default=DEFAULT_PHOTO, upload_to='photos', blank=True, null=True)
+    category = models.ManyToManyField(Category, blank=True)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     heart_counter = models.IntegerField(default=0)
     views = models.IntegerField(default=0)
+
+    def save(self, *args, **kwargs):
+        if not self.photo:
+            self.photo = self.DEFAULT_PHOTO
+        super(Item, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return self.name
