@@ -1,0 +1,30 @@
+{% extends 'item/base.html' %}
+
+{% block content %}
+
+<div class="container mt-4">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="media">
+                    <img src="{{ profile.avatar.url }}" class="mr-3" alt="" width="128"
+                         height="128">
+                    <div class="media-body">
+                        <h2 class="mt-0">{{ profile.user.username }}</h2>
+                        <p>Follows: </p>
+                        <p>Following: </p>
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <h3>Items</h3>
+                    {% for item in item_list %}
+                        <div class="card">
+                        <img src="{{ item.photo.url }}" class="card-img-top" alt="Video Thumbnail">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ item.name }}</h5>
+                            <p class="card-text">{{ item.description }}</p>
+                            <a href="{% url 'item:item-detail' item.id %}" class="btn btn-primary">Go</a>
+                        </div>
+                    {% endfor %}
+
+{% endblock %}

@@ -15,12 +15,11 @@
 
         <div class="row mt-4">
             <div class="col-md-8">
-                <h3>Uploaded by: <a href="#"></a>
+                <h3>Uploaded by: <a href="{% url 'account:profile-detail' item.owner.profile.pk %}">{{ item.owner.username }}</a>
                 </h3>
             </div>
 
         </div>
-        <!-- Video Description -->
         <div class="row mt-4">
             <div class="col-md-8">
                 <h3>Description</h3>
