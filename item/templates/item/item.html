@@ -3,10 +3,12 @@
 {% block content %}
 
 <section class="container mt-4">
-        <h2>{{ item.name }} | <a href="{% url 'item:item-update' item.pk %}">Update</a> | <a href="{% url 'item:item-delete' item.pk %}">Delete</a>
+        <h2>{{ item.name }} <h3>${{ item.price }}</h3>
+            {% if item.user == request.user %}
+            <a href="{% url 'item:item-update' item.pk %}">Update</a> | <a href="{% url 'item:item-delete' item.pk %}">Delete</a>
+            {% endif %}
         </h2>
 
-        <!-- Video Player -->
         <div class="row">
             <div class="col-md-4 mb-4">
                 <img src="{{ item.photo.url }}" width="300" height="300" alt="">

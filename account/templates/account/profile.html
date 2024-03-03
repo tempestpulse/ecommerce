@@ -2,16 +2,23 @@
 
 {% block content %}
 
-<div class="container mt-4">
+    <div class="container mt-4">
         <div class="row">
             <div class="col-md-8">
                 <div class="media">
                     <img src="{{ profile.avatar.url }}" class="mr-3" alt="" width="128"
                          height="128">
                     <div class="media-body">
-                        <h2 class="mt-0">{{ profile.user.username }}</h2>
-                        <p>Follows: </p>
-                        <p>Following: </p>
+                        <h2 class="mt-0">{{ profile.user.username }}
+                            <span style="font-size: smaller;">
+                                <a href="{% url 'account:follow-unfollow' profile.user.pk %}">Follow</a>
+                            </span>
+                            {% if profile.user == request.user %}
+                                <a href="{% url 'account:profile-delete' profile.pk %}">Delete</a>
+                            {% endif %}
+                        </h2>
+                        <p>Followers: {{ follower_count }}</p>
+                        <p>Following: {{ following_count }}</p>
                     </div>
                 </div>
 
