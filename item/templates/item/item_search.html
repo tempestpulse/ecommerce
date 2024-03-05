@@ -1,0 +1,26 @@
+{% extends 'item/base.html' %}
+
+{% block content %}
+    <section class="container mt-4">
+        {% if query %}
+            <h2>Search Result for {{ query }}</h2>
+            <div class="row">
+            <div class="col-md-4 mb-4">
+                {% for item in items %}
+                    <div class="card">
+                    <img src="{{ item.photo.url }}" class="card-img-top" alt="Video Thumbnail">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ item.name }}</h5>
+                        <p class="card-text">{{ item.description }}</p>
+                        <a href="{% url 'item:item-detail' item.id %}" class="btn btn-primary">Go</a>
+                    </div>
+                {% endfor %}
+                </div>
+            </div>
+        {% else %}
+            <h2>No query provided</h2>
+        {% endif %}
+
+        </div>
+    </section>
+{% endblock %}
