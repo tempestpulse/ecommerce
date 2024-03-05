@@ -4,9 +4,9 @@ from django.http import Http404
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
-from django.shortcuts import redirect, get_object_or_404
+from django.shortcuts import redirect, get_object_or_404, render
 from django.urls import reverse_lazy
-from django.views.generic import FormView, DetailView, DeleteView
+from django.views.generic import FormView, DetailView, DeleteView, ListView
 from django.views import View
 
 from account.forms import CustomUserCreationForm
@@ -92,5 +92,23 @@ class FollowUnfollowView(LoginRequiredMixin, View):
         return redirect('account:profile-detail', pk=user.profile.pk)
 
 
+class FollowsBaseListView(LoginRequiredMixin, ListView):
+    model = Profile
+    context_object_name = 'profiles'
+
+    def get_queryset(self):
+        return Profile.objects.filter(user__in=self.get_followers())
 
 
+class MyFollowsListView(FollowsBaseListView):
+    template_name = 'account/my_follows.html'
+
+    def get_followers(self):
+        return Follower.objects.filter(followed_by=self.request.user).values_list('user', flat=True)
+
+
+class MyFollowersListView(FollowsBaseListView):
+    template_name = 'account/my_followers.html'
+
+    def get_followers(self):
+        return Follower.objects.filter(user=self.request.user).values_list('followed_by', flat=True)
