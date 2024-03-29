@@ -127,4 +127,7 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+LOGIN_URL = 'account:login'
+CART_SESSION_ID = 'cart'
+
 CART_SESSION_ID = 'cart'

@@ -4,6 +4,11 @@
 
 <section class="container mt-4">
         <h2>{{ item.name }} <h3>${{ item.price }}</h3>
+<form action="{% url 'cart:cart-add' item.id %}" method="post">
+    {% csrf_token %}
+    {{ cart_item_form }}
+    <input type="submit" value="Add To Cart">
+</form>
             {% if item.user == request.user %}
             <a href="{% url 'item:item-update' item.pk %}">Update</a> | <a href="{% url 'item:item-delete' item.pk %}">Delete</a>
             {% endif %}
