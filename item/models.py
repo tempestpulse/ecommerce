@@ -18,13 +18,22 @@ class Item(models.Model):
     photo = models.ImageField(default=DEFAULT_PHOTO, upload_to='photos', blank=True, null=True)
     category = models.ManyToManyField(Category, blank=True)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
-    heart_counter = models.IntegerField(default=0)
+    favorite = models.ManyToManyField(User, related_name='favorited_items')
     views = models.IntegerField(default=0)
+    created = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    updated = models.DateTimeField(auto_now=True, blank=True, null=True)
+
+    def __str__(self):
+        return self.name
+
+    @property
+    def favorite_count(self):
+        return self.favorite.count()
 
     def save(self, *args, **kwargs):
         if not self.photo:
             self.photo = self.DEFAULT_PHOTO
         super(Item, self).save(*args, **kwargs)
 
-    def __str__(self):
-        return self.name
+    def favorite_status(self, user):
+        return self.favorite.filter(pk=user.id).exists()

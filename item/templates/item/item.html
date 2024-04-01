@@ -2,15 +2,24 @@
 
 {% block content %}
 
-<section class="container mt-4">
-        <h2>{{ item.name }} <h3>${{ item.price }}</h3>
-<form action="{% url 'cart:cart-add' item.id %}" method="post">
-    {% csrf_token %}
-    {{ cart_item_form }}
-    <input type="submit" value="Add To Cart">
-</form>
+    <section class="container mt-4">
+        <h2>{{ item.name }}
+            <h3>${{ item.price }}
+                <form method="post" action="{% url 'item:favorite' item.id %}">
+                    {% csrf_token %}
+                    <button type="submit" style="border: none; background: none; cursor: pointer;">
+                       <i class="fa-regular fa-heart"></i>
+                    </button>
+                </form>
+            </h3>
+            <form action="{% url 'cart:cart-add' item.id %}" method="post">
+                {% csrf_token %}
+                {{ cart_item_form }}
+                <input type="submit" value="Add To Cart">
+            </form>
             {% if item.user == request.user %}
-            <a href="{% url 'item:item-update' item.pk %}">Update</a> | <a href="{% url 'item:item-delete' item.pk %}">Delete</a>
+                <a href="{% url 'item:item-update' item.pk %}">Update</a> |
+                <a href="{% url 'item:item-delete' item.pk %}">Delete</a>
             {% endif %}
         </h2>
 
@@ -22,7 +31,8 @@
 
         <div class="row mt-4">
             <div class="col-md-8">
-                <h3>Uploaded by: <a href="{% url 'account:profile-detail' item.owner.profile.pk %}">{{ item.owner.username }}</a>
+                <h3>Uploaded by: <a
+                        href="{% url 'account:profile-detail' item.owner.profile.pk %}">{{ item.owner.username }}</a>
                 </h3>
             </div>
 

@@ -1,0 +1,34 @@
+{% extends 'item/base.html' %}
+
+{% block content %}
+  <!-- Featured Products -->
+  <div class="container mt-5">
+    <h2 class="text-center mb-4">Favorite Items</h2>
+      {% for item in favorites %}
+    <div class="row">
+      <div class="col-md-4">
+        <div class="card">
+          <img src="{{ item.photo.url }}" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">{{ item.name }}</h5>
+            <p class="card-text">Description of product 1.</p>
+            <a href="{% url 'item:item-detail' item.id %}" class="btn btn-primary">Go</a>
+          </div>
+        </div>
+      </div>
+
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- New Arrivals -->
+  <div class="container mt-5">
+    <h2 class="text-center mb-4">New Arrivals</h2>
+    <div class="row">
+      <!-- New Arrival Product Cards -->
+    </div>
+  </div>
+
+
+
+{% endblock %}

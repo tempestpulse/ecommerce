@@ -1,6 +1,9 @@
+from django.contrib.auth.models import User
 from django.db.models import Q
 from django.http import Http404
+from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse, reverse_lazy
+from django.views import View
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Item
@@ -72,3 +75,25 @@ class ItemSearchListView(ListView):
         context = super().get_context_data(**kwargs)
         context['query'] = self.request.GET.get('q', None)
         return context
+
+
+class FavoriteView(LoginRequiredMixin, View):
+    def post(self, request, pk):
+        item = get_object_or_404(Item, pk=pk)
+        if self.request.user == item.owner:
+            return redirect(reverse('item:item-detail', kwargs={'pk': pk}))
+
+        if item.favorite_status(self.request.user):
+            item.favorite.remove(self.request.user)
+        else:
+            item.favorite.add(self.request.user)
+        return redirect(reverse('item:item-detail', kwargs={'pk': pk}))
+
+
+class FavoriteListView(LoginRequiredMixin, ListView):
+    template_name = 'item/favorite_list.html'
+    context_object_name = 'favorites'
+
+    def get_queryset(self):
+        user = get_object_or_404(User, pk=self.request.user.id)
+        return user.favorited_items.all()
