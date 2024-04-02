@@ -93,7 +93,6 @@ class FollowUnfollowView(LoginRequiredMixin, View):
 
 
 class FollowsBaseListView(LoginRequiredMixin, ListView):
-    model = Profile
     context_object_name = 'profiles'
 
     def get_queryset(self):

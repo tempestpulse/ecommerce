@@ -1,33 +1,44 @@
 {% extends 'item/base.html' %}
 
 {% block content %}
-  <!-- Featured Products -->
-  <div class="container mt-5">
-    <h2 class="text-center mb-4">Featured Products</h2>
-      {% for item in item_list %}
-    <div class="row">
-      <div class="col-md-4">
-        <div class="card">
-          <img src="{{ item.photo.url }}" class="card-img-top" alt="...">
-          <div class="card-body">
-            <h5 class="card-title">{{ item.name }}</h5>
-            <p class="card-text">Description of product 1.</p>
-            <a href="{% url 'item:item-detail' item.id %}" class="btn btn-primary">Go</a>
-          </div>
+    <!-- Featured Products -->
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">Featured Products</h2>
+        {% for item in items %}
+            <div class="row">
+            <div class="col-md-4">
+                <div class="card">
+                    <img src="{{ item.photo.url }}" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ item.name }}
+                            <form method="post" action="{% url 'item:favorite' item.id %}">
+                                {% csrf_token %}
+                                <button type="submit" style="border: none; background: none; cursor: pointer;">
+                                    {% if item.pk in is_favorite %}
+                                        <i class="fa-solid fa-heart" style="color: #ff8080;"></i>
+                                    {% else %}
+                                        <i class="fa-regular fa-heart"></i>
+                                    {% endif %}
+                                </button>
+                            </form>
+                        </h5>
+                        <p class="card-text">Description of product 1.</p>
+                        <a href="{% url 'item:item-detail' item.id %}" class="btn btn-primary">Go</a>
+                    </div>
+                </div>
+            </div>
+
+        {% endfor %}
         </div>
-      </div>
-
-      {% endfor %}
     </div>
-  </div>
 
-  <!-- New Arrivals -->
-  <div class="container mt-5">
-    <h2 class="text-center mb-4">New Arrivals</h2>
-    <div class="row">
-      <!-- New Arrival Product Cards -->
+    <!-- New Arrivals -->
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">New Arrivals</h2>
+        <div class="row">
+            <!-- New Arrival Product Cards -->
+        </div>
     </div>
-  </div>
 
 
 

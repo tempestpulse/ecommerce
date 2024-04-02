@@ -8,7 +8,11 @@
                 <form method="post" action="{% url 'item:favorite' item.id %}">
                     {% csrf_token %}
                     <button type="submit" style="border: none; background: none; cursor: pointer;">
-                       <i class="fa-regular fa-heart"></i>
+                        {% if is_favorite %}
+                       <i class="fa-solid fa-heart" style="color: #ff8080;"></i>
+                        {% else %}
+                        <i class="fa-regular fa-heart"></i>
+                        {% endif %}
                     </button>
                 </form>
             </h3>

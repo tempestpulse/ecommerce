@@ -12,13 +12,30 @@ from .models import Item
 class ItemListView(ListView):
     model = Item
     template_name = 'item/home.html'
-    context_object_name = 'item_list'
+    context_object_name = 'items'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        items = context['items']
+
+        is_favorite = [item.id for item in items if item.favorite_status(self.request.user)]
+        context['is_favorite'] = is_favorite
+        return context
 
 
 class ItemDetailView(DetailView):
     model = Item
     template_name = 'item/item.html'
     context_object_name = 'item'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        item = self.object
+
+        if self.request.user.is_authenticated:
+            is_favorite = item.favorite_status(self.request.user)
+            context['is_favorite'] = is_favorite
+        return context
 
 
 class ItemCreateView(LoginRequiredMixin, CreateView):
